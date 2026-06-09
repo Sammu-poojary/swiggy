@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partner With Us - FoodCart</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .hero {
+        background: #ff5a00;
+        padding: 0 20px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .left-veggies {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 250px;
+        z-index: 1;
+    }
+
+    .right-veggies {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 250px;
+        z-index: 1;
+        transform: scaleX(-1);
+    }
+
+    .navbar-brand {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white !important;
+    }
+
+    .nav-link:hover {
+        color: rgb(185, 30, 30) !important;
+        font-weight: 600;
+        background-color: white;
+    }
+
+    .btn-signin {
+        background: black;
+        color: white;
+        border-radius: 15px;
+        padding: 10px 30px;
+        text-decoration: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 5;
+        color: white;
+        padding: 40px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #ff5a00;
+    }
+
+    .benefit-card {
+        background: white;
+        border: 2px solid #f0f0f0;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .benefit-card:hover {
+        border-color: #ff5a00;
+        box-shadow: 0 5px 20px rgba(255, 90, 0, 0.1);
+        transform: translateY(-5px);
+    }
+
+    .benefit-card i {
+        color: #ff5a00;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .benefit-card h3 {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .benefit-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, #fff5f0 0%, #ffe8dc 100%);
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+        border-left: 5px solid #ff5a00;
+    }
+
+    .info-box h3 {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .info-box p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 40px 0;
+    }
+
+    .btn-primary-custom {
+        background: #ff5a00;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s ease;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary-custom:hover {
+        background: #e84b00;
+    }
+
+    .btn-secondary-custom {
+        background: white;
+        color: #ff5a00;
+        padding: 12px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        border: 2px solid #ff5a00;
+        transition: all 0.3s ease;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .btn-secondary-custom:hover {
+        background: #fff5f0;
+    }
+
+    .steps-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 40px 0;
+    }
+
+    .step-card {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    .step-number {
+        width: 50px;
+        height: 50px;
+        background: #ff5a00;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 auto 15px;
+    }
+
+    .step-card h4 {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .step-card p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        background: #181b20;
+        color: #d8d8d8;
+        padding: 60px 0 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer a {
+        color: #d8d8d8;
+        text-decoration: none;
+        transition: color .2s ease;
+    }
+
+    .footer a:hover {
+        color: #ffb347;
+    }
+
+    .footer h4 {
+        color: #ffffff;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .footer p,
+    .footer li {
+        color: #b4b4b4;
+        font-size: 0.95rem;
+    }
+
+    .footer .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer .footer-links li a {
+        display: inline-block;
+        padding: 3px 0;
+    }
+
+    .footer .social-icons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.08);
+        margin-right: 10px;
+        color: #ffffff;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .footer .social-icons a:hover {
+        transform: translateY(-2px);
+        background: #ff5a00;
+        color: #181b20;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding-top: 18px;
+        margin-top: 24px;
+        color: #8f8f8f;
+        font-size: 0.9rem;
+    }
+
+    @media(max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+        }
+
+        .left-veggies, .right-veggies {
+            width: 120px;
+            top: 160px;
+        }
+
+        .navbar-nav {
+            text-align: center;
+            gap: 10px;
+            padding-top: 15px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<section class="hero">
+    <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/portal/testing/seo-home/Veggies_new.png" class="left-veggies" alt="Vegetables">
+    <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/portal/testing/seo-home/Veggies_new.png" class="right-veggies" alt="Vegetables">
+
+    <nav class="navbar navbar-expand-lg py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="siggy.html">
+                <i class="bi bi-basket"></i>
+                <span class="fw-bold text-white">FoodCart</span>
+            </a>
+
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="siggy.html">Home</a>
+                    </li>
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="corporate.html">Corporate</a>
+                    </li>
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="partner.html">Partner with us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="signin.html" class="btn btn-signin" style="text-decoration: none;">Sign In</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-content align-items-center text-center">
+            <h1>Partner With FoodCart</h1>
+            <p>Grow your restaurant business with FoodCart's network</p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+    <section class="content-section">
+        <h2 class="section-title">Why Partner With Us?</h2>
+        <p style="font-size: 1.1rem; color: #666; margin-bottom: 40px;">
+            Join thousands of restaurants that have grown their business with FoodCart. Reach more customers, increase your revenue, and expand your market presence.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-bar-chart"></i>
+                    <h3>Increase Revenue</h3>
+                    <p>Access millions of customers and boost your sales. Reach customers beyond your physical location.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-graph-up"></i>
+                    <h3>Growth Opportunities</h3>
+                    <p>Access analytics, marketing support, and promotional tools to grow your business significantly.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Dedicated account manager and round-the-clock support to help your restaurant succeed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-lightning"></i>
+                    <h3>Easy Integration</h3>
+                    <p>Simple onboarding process. Get your restaurant on FoodCart in just a few steps.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-shield-check"></i>
+                    <h3>Secure Payments</h3>
+                    <p>Fast and secure payment processing. Get your earnings transferred directly to your account.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <i class="bi bi-diagram-3"></i>
+                    <h3>Advanced Tools</h3>
+                    <p>Manage orders, inventory, and customer feedback all from one dashboard.</p>
+                </div>
+            </div>
+        </div>       
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-basket fs-2 text-warning"></i>
+                    <div class="ms-3">
+                        <h4 class="mb-1">FoodCart</h4>
+                        <p class="mb-0 text-secondary">Fast, fresh food delivered from your favorite spots.</p>
+                    </div>
+                </div>
+                <p>Subscribe for the latest partner offers and customer deals.</p>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Company</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Partner</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Partner Program</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Legal</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Follow Us</h4>
+                <div class="social-icons d-flex flex-wrap">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center mt-4">
+            <small>© 2026 FoodCart. Designed for fast, reliable food and grocery delivery.</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function showContactForm() {
+        alert('Please fill the application form at partners@foodcart.com or contact us!');
+    }
+
+    function downloadPartnerGuide() {
+        alert('Partner Guide - Coming Soon! You can contact us for more details.');
+    }
+</script>
+
+</body>
+</html>

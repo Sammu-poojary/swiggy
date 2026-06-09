@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoodCart Corporate</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .hero {
+        background: #ff5a00;
+        padding: 0 20px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .left-veggies {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 250px;
+        z-index: 1;
+    }
+
+    .right-veggies {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 250px;
+        z-index: 1;
+        transform: scaleX(-1);
+    }
+
+    .navbar-brand {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white !important;
+    }
+
+    .nav-link:hover {
+        color: rgb(185, 30, 30) !important;
+        font-weight: 600;
+        background-color: white;
+    }
+
+    .btn-signin {
+        background: black;
+        color: white;
+        border-radius: 15px;
+        padding: 10px 30px;
+        text-decoration: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 5;
+        color: white;
+        padding: 40px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #ff5a00;
+    }
+
+
+    .footer {
+        background: #181b20;
+        color: #d8d8d8;
+        padding: 60px 0 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer a {
+        color: #d8d8d8;
+        text-decoration: none;
+        transition: color .2s ease;
+    }
+
+    .footer a:hover {
+        color: #ffb347;
+    }
+
+    .footer h4 {
+        color: #ffffff;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .footer p,
+    .footer li {
+        color: #b4b4b4;
+        font-size: 0.95rem;
+    }
+
+    .footer .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer .footer-links li a {
+        display: inline-block;
+        padding: 3px 0;
+    }
+
+    .footer .social-icons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.08);
+        margin-right: 10px;
+        color: #ffffff;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .footer .social-icons a:hover {
+        transform: translateY(-2px);
+        background: #ff5a00;
+        color: #181b20;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding-top: 18px;
+        margin-top: 24px;
+        color: #8f8f8f;
+        font-size: 0.9rem;
+    }
+
+    @media(max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+
+        .left-veggies, .right-veggies {
+            width: 120px;
+            top: 160px;
+        }
+
+        .navbar-nav {
+            text-align: center;
+            gap: 10px;
+            padding-top: 15px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<section class="hero">
+    <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/portal/testing/seo-home/Veggies_new.png" class="left-veggies" alt="Vegetables">
+    <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/portal/testing/seo-home/Veggies_new.png" class="right-veggies" alt="Vegetables">
+
+    <nav class="navbar navbar-expand-lg py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="siggy.html">
+                <i class="bi bi-basket"></i>
+                <span class="fw-bold text-white">FoodCart</span>
+            </a>
+
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="siggy.html">Home</a>
+                    </li>
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="corporate.html">Corporate</a>
+                    </li>
+                    <li class="nav-item me-lg-4">
+                        <a class="nav-link" href="partner.html">Partner with us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="signin.html" class="btn btn-signin" style="text-decoration: none;">Sign In</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-content align-items-center text-center">
+            <h1>FoodCart Corporate</h1>
+            <p>Transforming the food delivery experience worldwide</p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+    <section class="content-section">
+        <h2 class="section-title">About FoodCart</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm h-100" style="background-color: #f9f7f6; color: rgb(20, 14, 14);">
+                    <div class="card-body">
+                        <h3 class="card-title">Our Mission</h3>
+                        <p class="card-text">
+                            At FoodCart, our mission is to make ordering food fast, easy, and accessible to everyone. We partner with the best restaurants and deliver quality food to your doorstep in the shortest possible time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm h-100" style="background-color: #f8f6f5; color: rgb(5, 4, 4);">
+                    <div class="card-body">
+                        <h3 class="card-title">Our Vision</h3>
+                        <p class="card-text">
+                            We envision a world where quality food is just a click away. We're committed to supporting local restaurants and small businesses while providing customers with an unmatched dining experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title mt-5">By The Numbers</h2>
+        <div class="row gy-4 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title display-6 mb-2">50K+</h4>
+                        <p class="card-text mb-0">Restaurants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title display-6 mb-2">5M+</h4>
+                        <p class="card-text mb-0">Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title display-6 mb-2">100K+</h4>
+                        <p class="card-text mb-0">Delivery Partners</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h4 class="card-title display-6 mb-2">50+</h4>
+                        <p class="card-text mb-0">Cities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title mt-5">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4" >
+                <div class="card h-100 shadow-sm" style="background-color:#ede5e2;">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-box-seam" style="color: #040302; margin-right: 10px;"></i>Food Delivery</h3>
+                        <p class="card-text">Fast and reliable food delivery from your favorite restaurants. Get fresh meals delivered hot to your door.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm" style="background-color:#ede5e2">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-bag-dollar" style="color: #040302; margin-right: 10px;"></i>Instamart</h3>
+                        <p class="card-text">Instant grocery delivery. Get essential items, groceries, and household products within 30 minutes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm" style="background-color:#ede5e2">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-building" style="color: #040302;margin-right: 10px;"></i>Corporate Solutions</h3>
+                        <p class="card-text">Customized food delivery solutions for corporates. Bulk catering and office lunches at discounted rates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-basket fs-2 text-warning"></i>
+                    <div class="ms-3">
+                        <h4 class="mb-1">FoodCart</h4>
+                        <p class="mb-0 text-secondary">Fast, fresh food delivered from your favorite spots.</p>
+                    </div>
+                </div>
+                <p>Subscribe for corporate updates, partner launches, and exclusive savings.</p>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Company</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Contact</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Help & Support</a></li>
+                    <li><a href="#">Partner With Us</a></li>
+                    <li><a href="#">Ride With Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Legal</h4>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h4>Follow Us</h4>
+                <div class="social-icons d-flex flex-wrap">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center mt-4">
+            <small>© 2026 FoodCart. Designed for fast, reliable food and grocery delivery.</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
