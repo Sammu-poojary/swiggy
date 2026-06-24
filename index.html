@@ -14,6 +14,9 @@
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+<!-- Cart Styling -->
+<link rel="stylesheet" href="cart.css">
+
 <style>
 
 body{
@@ -176,6 +179,14 @@ body{
 .food-card:hover{
     transform:translateY(-6px);
     box-shadow:0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+.food-item{
+    cursor:pointer;
+}
+
+.food-item.hidden{
+    display:none !important;
 }
 
 .food-card .img-fluid{
@@ -358,9 +369,16 @@ body{
                     </li>
 
                  
-                    <li class="nav-item">
+                    <li class="nav-item me-lg-3">
                         <a href="signin.html" class="btn btn-signin" style="text-decoration: none;">
                             Sign In
+                        </a>
+                    </li>
+
+                    <li class="nav-item align-self-center mt-2 mt-lg-0">
+                        <a class="header-cart-chip" href="#" id="globalCartBtn">
+                            <i class="bi bi-cart-fill text-warning"></i>
+                            <span><span id="globalCartCount">0</span> items</span>
                         </a>
                     </li>
 
@@ -600,6 +618,140 @@ body{
         </div>
     </div>
 </section>
+
+<!-- Instamart Grocery Section -->
+<section class="py-5 bg-white" id="instamart-section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Shop groceries on Instamart</h2>
+            <div>
+                <button class="btn btn-light rounded-circle me-2" id="instamartPrev" style="width:40px;height:40px;">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <button class="btn btn-light rounded-circle" id="instamartNext" style="width:40px;height:40px;">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="instamart-scroll-wrapper" style="overflow:hidden; position:relative;">
+            <div class="instamart-scroll-track d-flex gap-3" id="instamartTrack" style="transition: transform 0.4s ease; width: max-content;">
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=fresh-vegetables'">
+                    <div class="instamart-img-box">
+                        <img src="images/vegitable.jpg" alt="Fresh Vegetables">
+                    </div>
+                    <p>Fresh<br>Vegetables</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=fresh-fruits'">
+                    <div class="instamart-img-box">
+                        <img src="images/fruits.jpg" alt="Fresh Fruits">
+                    </div>
+                    <p>Fresh Fruits</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=dairy-bread-eggs'">
+                    <div class="instamart-img-box">
+                        <img src="images/dairy.jpg" alt="Dairy Bread Eggs">
+                    </div>
+                    <p>Dairy, Bread<br>and Eggs</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=rice-atta-dals'">
+                    <div class="instamart-img-box">
+                        <img src="images/rice.jpg" alt="Rice Atta Dals">
+                    </div>
+                    <p>Rice, Atta and<br>Dals</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=masalas-dry-fruits'">
+                    <div class="instamart-img-box">
+                        <img src="images/masalas.jpg" alt="Masalas and Dry Fruits">
+                    </div>
+                    <p>Masalas and<br>Dry Fruits</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=oils-ghee'">
+                    <div class="instamart-img-box">
+                        <img src="images/oil.jpg" alt="Oils and Ghee">
+                    </div>
+                    <p>Oils and Ghee</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=munchies'">
+                    <div class="instamart-img-box">
+                        <img src="images/munchies.jpg" alt="Munchies">
+                    </div>
+                    <p>Munchies</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=sweets-chocolates'">
+                    <div class="instamart-img-box">
+                        <img src="images/sweets.jpg" alt="Sweets and Chocolates">
+                    </div>
+                    <p>Sweets &<br>Chocolates</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=cold-drinks-juices'">
+                    <div class="instamart-img-box">
+                        <img src="images/juice.jpg" alt="Cold Drinks and Juices">
+                    </div>
+                    <p>Cold Drinks<br>& Juices</p>
+                </div>
+
+                <div class="instamart-cat-card" onclick="window.location.href='grocery.html?cat=cleaning-essentials'">
+                    <div class="instamart-img-box">
+                        <img src="images/cleaning.jpg" alt="Cleaning Essentials">
+                    </div>
+                    <p>Cleaning<br>Essentials</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.instamart-cat-card {
+    background: #f8f9fa;
+    border-radius: 20px;
+    padding: 12px;
+    width: 140px;
+    min-width: 140px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.instamart-cat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+    border-color: #ff5a00;
+}
+.instamart-img-box {
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.instamart-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.instamart-cat-card p {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.3;
+}
+</style>
 
 <section class="py-5 bg-light">
     <div class="container">
@@ -861,6 +1013,105 @@ body{
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="cart.js" defer></script>
+
+<script>
+    const foodSearchInput = document.getElementById('foodSearch');
+    const foodSearchForm = foodSearchInput.closest('form');
+    const foodItems = Array.from(document.querySelectorAll('#best-food-options .row > div[id]'));
+    const foodItemDetails = {
+        pizza: { name: 'Pizza', image: 'images/pizza.webp', page: 'pizza.html' },
+        cake: { name: 'Cake', image: 'images/cake.webp' },
+        shawarma: { name: 'Shawarma', image: 'images/shawrma.webp' },
+        noodles: { name: 'Noodles', image: 'images/noodles.webp' },
+        biriyani: { name: 'Biryani', image: 'images/biriyani.webp' },
+        dosa: { name: 'Dosa', image: 'images/dosa.webp' },
+        momos: { name: 'Momos', image: 'images/momos.webp' },
+        cutlet: { name: 'Cutlet', image: 'images/cutlet.webp' },
+        juice: { name: 'Juice', image: 'images/juice.webp' },
+        pavbhaji: { name: 'Pav Bhaji', image: 'images/pavbaji.webp' },
+        tea: { name: 'Tea', image: 'images/tea.webp' },
+        coffee: { name: 'Coffee', image: 'images/coffe.webp' }
+    };
+
+    foodItems.forEach((item) => {
+        const details = foodItemDetails[item.id];
+
+        if (!details) {
+            return;
+        }
+
+        item.classList.add('food-item');
+        item.setAttribute('role', 'button');
+        item.setAttribute('tabindex', '0');
+
+        const openFoodPage = () => {
+            const url = details.page
+                ? details.page
+                : `item.html?name=${encodeURIComponent(details.name)}&image=${encodeURIComponent(details.image)}`;
+            window.location.href = url;
+        };
+
+        item.addEventListener('click', openFoodPage);
+        item.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openFoodPage();
+            }
+        });
+    });
+
+    function filterFoodItems(query) {
+        const searchTerm = query.trim().toLowerCase();
+
+        foodItems.forEach((item) => {
+            const itemText = item.textContent.toLowerCase();
+            const itemId = item.id.toLowerCase();
+            const matches = !searchTerm || itemText.includes(searchTerm) || itemId.includes(searchTerm);
+
+            item.classList.toggle('hidden', !matches);
+        });
+    }
+
+    foodSearchInput.addEventListener('input', (event) => {
+        filterFoodItems(event.target.value);
+    });
+
+    foodSearchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        filterFoodItems(foodSearchInput.value);
+
+        const firstVisibleItem = foodItems.find((item) => !item.classList.contains('hidden'));
+
+        if (firstVisibleItem) {
+            firstVisibleItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+
+    // Instamart carousel scroll
+    (function() {
+        const track = document.getElementById('instamartTrack');
+        const prevBtn = document.getElementById('instamartPrev');
+        const nextBtn = document.getElementById('instamartNext');
+        if (!track || !prevBtn || !nextBtn) return;
+        let offset = 0;
+        const step = 320;
+        function clampOffset() {
+            const maxOffset = track.scrollWidth - track.parentElement.offsetWidth;
+            offset = Math.max(0, Math.min(offset, maxOffset));
+        }
+        nextBtn.addEventListener('click', () => {
+            offset += step;
+            clampOffset();
+            track.style.transform = `translateX(-${offset}px)`;
+        });
+        prevBtn.addEventListener('click', () => {
+            offset -= step;
+            clampOffset();
+            track.style.transform = `translateX(-${offset}px)`;
+        });
+    })();
+</script>
 
 </body>
 </html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Instamart Groceries – FoodCart</title>
+    <meta name="description"
+        content="Shop fresh groceries, vegetables, fruits, dairy, snacks and more on FoodCart Instamart. Delivered in minutes.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="cart.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f8fa;
+            margin: 0;
+        }
+
+        /* ── Top Bar ── */
+        .grocery-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #fff;
+            border-bottom: 1px solid #ebebeb;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .grocery-topbar .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #222;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+
+        .grocery-topbar .back-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .grocery-topbar h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0;
+            flex: 1;
+            color: #111;
+        }
+
+        .grocery-topbar .search-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .cart-chip-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 90, 0, 0.08);
+            border: 1.5px solid #ff5a00;
+            border-radius: 999px;
+            padding: 7px 16px;
+            font-weight: 700;
+            color: #ff5a00 !important;
+            text-decoration: none !important;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cart-chip-top:hover {
+            background: rgba(255, 90, 0, 0.14);
+        }
+
+        /* ── Filter Bar ── */
+        .filter-bar {
+            background: #fff;
+            border-bottom: 1px solid #ebebeb;
+            padding: 10px 24px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 61px;
+            z-index: 90;
+        }
+
+        .filter-chip {
+            background: #fff;
+            border: 1.5px solid #d9d9d9;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            border-color: #ff5a00;
+            color: #ff5a00;
+            background: rgba(255, 90, 0, 0.05);
+        }
+
+        .filter-chip i {
+            font-size: 0.75rem;
+        }
+
+        /* ── Layout ── */
+        .grocery-layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* ── Sidebar ── */
+        .grocery-sidebar {
+            width: 160px;
+            min-width: 160px;
+            background: #fff;
+            border-right: 1px solid #ebebeb;
+            padding: 16px 0;
+            position: sticky;
+            top: 120px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-left: 3px solid transparent;
+            text-align: center;
+        }
+
+        .sidebar-item:hover {
+            background: #fafafa;
+        }
+
+        .sidebar-item.active {
+            border-left-color: #e91e8c;
+            background: #fff5fb;
+        }
+
+        .sidebar-item.active .sidebar-label {
+            color: #e91e8c;
+            font-weight: 700;
+        }
+
+        .sidebar-thumb {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f5f5f5;
+            padding: 4px;
+        }
+
+        .sidebar-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #444;
+            margin-top: 6px;
+            line-height: 1.2;
+        }
+
+        /* ── Product Grid ── */
+        .grocery-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #ebebeb;
+            overflow: hidden;
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+            transform: translateY(-3px);
+        }
+
+        .product-card .add-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #1e88e5;
+            color: #1e88e5;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s, transform 0.18s;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(30, 136, 229, 0.15);
+        }
+
+        .product-card .add-btn:hover {
+            background: #1e88e5;
+            color: #fff;
+            transform: scale(1.12);
+        }
+
+        .product-img-wrap {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            overflow: hidden;
+        }
+
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.25s;
+        }
+
+        .product-card:hover .product-img-wrap img {
+            transform: scale(1.04);
+        }
+
+        .product-info {
+            padding: 12px 14px 14px;
+        }
+
+        .delivery-time {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #888;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .product-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 3px;
+            line-height: 1.25;
+        }
+
+        .product-desc {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 8px;
+            line-height: 1.35;
+        }
+
+        .product-qty {
+            font-size: 0.78rem;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-qty i {
+            font-size: 0.7rem;
+        }
+
+        .discount-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 2px 8px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 8px;
+            margin-top: 4px;
+        }
+
+        .price-now {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .price-old {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        /* ── Section heading in grid ── */
+        .grid-section-title {
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #111;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* ── Responsive ── */
+        @media(max-width: 768px) {
+            .grocery-sidebar {
+                width: 90px;
+                min-width: 90px;
+            }
+
+            .sidebar-thumb {
+                width: 40px;
+                height: 40px;
+            }
+
+            .sidebar-label {
+                font-size: 0.62rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+
+            .grocery-content {
+                padding: 12px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Bar -->
+    <div class="grocery-topbar">
+        <button class="back-btn" onclick="history.back()" title="Go back">
+            <i class="bi bi-arrow-left"></i>
+        </button>
+        <h1 id="pageTitle">Fresh Vegetables</h1>
+        <a class="cart-chip-top header-cart-chip" id="globalCartBtn" href="#">
+            <i class="bi bi-cart-fill"></i>
+            <span><span id="globalCartCount">0</span> items</span>
+        </a>
+        <button class="search-btn"><i class="bi bi-search"></i></button>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar" id="filterBar">
+        <button class="filter-chip active"><i class="bi bi-sliders me-1"></i> Filters</button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Gourd</button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Beans</button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Capsicum</button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Type <i
+                class="bi bi-chevron-down ms-1"></i></button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Brand <i
+                class="bi bi-chevron-down ms-1"></i></button>
+        <button class="filter-chip" onclick="this.classList.toggle('active')">Sort By <i
+                class="bi bi-chevron-down ms-1"></i></button>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="grocery-layout">
+
+        <!-- Sidebar -->
+        <div class="grocery-sidebar" id="sidebarNav">
+            <!-- Dynamically filled by JS -->
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grocery-content">
+            <div class="product-grid" id="productGrid">
+                <!-- Dynamically filled by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="cart.js" defer></script>
+
+    <script>
+        // ── Data ─────────────────────────────────────────────────────────────────────
+
+        const CATEGORIES = {
+            'fresh-vegetables': {
+                label: 'Fresh Vegetables',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Fresh_Vegetables.png',
+                subcats: [
+                    { id: 'leafy', label: 'Leafy and\nSeasonings', thumb: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=120&h=120&fit=crop' },
+                    { id: 'exotic', label: 'Exotic\nVegetables', thumb: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=120&h=120&fit=crop' },
+                    { id: 'festive', label: 'Festive\nEssentials', thumb: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=120&h=120&fit=crop' },
+                    { id: 'flowers', label: 'Flowers\n& Plants', thumb: 'https://images.unsplash.com/photo-1490750967868-88df5691cc23?w=120&h=120&fit=crop' },
+                    { id: 'newarrivals', label: 'New\nArrivals', thumb: 'https://images.unsplash.com/photo-1481671703460-040cb8a2d909?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'coconut', name: 'Coconut', desc: 'Ideal for festivals, temple offerings, and cooking', qty: '1 Small', discount: '20% OFF', price: 39, mrp: 49, img: 'https://www.paperandtea.com/cdn/shop/articles/Kokosnuss_00dc9916-deb3-4cfe-8151-107fc85f6136.jpg?v=1756478271&width=1024', time: '4 MINS' },
+                    { id: 'onion', name: 'Onion (Eerulli)', desc: 'Zero Sprouting, Zero Smut', qty: '1 kg', discount: '21% OFF', price: 30, mrp: 38, img: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'tomato', name: 'Indian Tomato', desc: 'Juicy, tangy & ideal for all Indian curries', qty: '500 g', discount: '18% OFF', price: 25, mrp: 30, img: 'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'potato', name: 'Potato (Aloo Gadde)', desc: "Agra's finest potatoes; great for fries, mash & curries", qty: '1 kg', discount: '21% OFF', price: 35, mrp: 44, img: 'https://images.unsplash.com/photo-1508313880080-c4bef0730395?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'spinach', name: 'Palak (Spinach)', desc: 'Farm fresh, rich in iron', qty: '250 g', discount: '15% OFF', price: 18, mrp: 21, img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'capsicum', name: 'Capsicum (Red)', desc: 'Crunchy and sweet for salads & stir fry', qty: '250 g', discount: '10% OFF', price: 45, mrp: 50, img: 'https://images.unsplash.com/photo-1489450278009-822e9be04dff?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'brinjal', name: 'Brinjal (Baingan)', desc: 'Smooth skin, great for bharata & curries', qty: '500 g', discount: '12% OFF', price: 22, mrp: 25, img: 'https://images.unsplash.com/photo-1489450278009-822e9be04dff?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'carrot', name: 'Carrot (Gajar)', desc: 'Sweet and crunchy Ooty carrots', qty: '500 g', discount: '16% OFF', price: 29, mrp: 34, img: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&h=300&fit=crop', time: '4 MINS' },
+                ]
+            },
+            'fresh-fruits': {
+                label: 'Fresh Fruits',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Fresh_Fruits.png',
+                subcats: [
+                    { id: 'tropical', label: 'Tropical\nFruits', thumb: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=120&h=120&fit=crop' },
+                    { id: 'berries', label: 'Berries', thumb: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=120&h=120&fit=crop' },
+                    { id: 'citrus', label: 'Citrus', thumb: 'https://images.unsplash.com/photo-1547514701-42782101795e?w=120&h=120&fit=crop' },
+                    { id: 'dryfruit', label: 'Dry Fruits', thumb: 'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'mango', name: 'Alphonso Mango', desc: 'King of mangoes, premium quality', qty: '1 kg', discount: '15% OFF', price: 149, mrp: 175, img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'apple', name: 'Shimla Apple', desc: 'Crisp, sweet and naturally red', qty: '1 kg', discount: '10% OFF', price: 120, mrp: 133, img: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'banana', name: 'Nendran Banana', desc: 'Rich in potassium, ideal for breakfast', qty: '6 pcs', discount: '8% OFF', price: 55, mrp: 60, img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'grapes', name: 'Green Grapes', desc: 'Seedless, juicy and fresh from farm', qty: '500 g', discount: '20% OFF', price: 69, mrp: 86, img: 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'watermelon', name: 'Watermelon', desc: 'Chilled and sweet for hot days', qty: '1 whole', discount: '12% OFF', price: 79, mrp: 90, img: 'https://images.unsplash.com/photo-1563114773-84221bd62daa?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'pomegranate', name: 'Pomegranate', desc: 'Rich antioxidants, ruby red seeds', qty: '1 pc', discount: '18% OFF', price: 65, mrp: 79, img: 'https://images.unsplash.com/photo-1541344999736-83eca272f6fc?w=400&h=300&fit=crop', time: '5 MINS' },
+                ]
+            },
+            'dairy-bread-eggs': {
+                label: 'Dairy, Bread & Eggs',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Dairy%2C_Bread_%26_Eggs.png',
+                subcats: [
+                    { id: 'milk', label: 'Milk', thumb: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=120&h=120&fit=crop' },
+                    { id: 'cheese', label: 'Cheese', thumb: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=120&h=120&fit=crop' },
+                    { id: 'eggs', label: 'Eggs', thumb: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=120&h=120&fit=crop' },
+                    { id: 'bread', label: 'Bread', thumb: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'fullmilk', name: 'Full Cream Milk', desc: 'Fresh, pasteurised full cream milk', qty: '1 L', discount: '5% OFF', price: 67, mrp: 70, img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'eggs12', name: 'Farm Fresh Eggs', desc: 'White eggs, Grade A, free-range', qty: '12 pcs', discount: '10% OFF', price: 81, mrp: 90, img: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'butter', name: 'Amul Butter', desc: 'Pasteurised table butter, salted', qty: '200 g', discount: '8% OFF', price: 57, mrp: 62, img: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'cheddar', name: 'Cheddar Cheese Slice', desc: 'Melt-ready, perfect for sandwiches', qty: '200 g', discount: '12% OFF', price: 115, mrp: 131, img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'whitebread', name: 'White Sandwich Bread', desc: 'Soft, fresh baked, preservative-free', qty: '400 g', discount: '6% OFF', price: 39, mrp: 41, img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'curd', name: 'Dahi (Curd)', desc: 'Thick, creamy, made from whole milk', qty: '400 g', discount: '7% OFF', price: 47, mrp: 50, img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop', time: '3 MINS' },
+                ]
+            },
+            'rice-atta-dals': {
+                label: 'Rice, Atta & Dals',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Rice%2C_Atta_%26_Dals.png',
+                subcats: [
+                    { id: 'rice', label: 'Rice', thumb: 'https://images.unsplash.com/photo-1536304993881-ff86e0c9b3b6?w=120&h=120&fit=crop' },
+                    { id: 'atta', label: 'Atta & Flours', thumb: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=120&h=120&fit=crop' },
+                    { id: 'dals', label: 'Dals & Pulses', thumb: 'https://images.unsplash.com/photo-1585996583785-d40ca84ef5df?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'basmati', name: 'Basmati Rice', desc: 'Long grain, aged for superior aroma', qty: '1 kg', discount: '14% OFF', price: 129, mrp: 150, img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'wheatatta', name: 'Whole Wheat Atta', desc: 'Stone ground, 100% whole wheat', qty: '5 kg', discount: '10% OFF', price: 259, mrp: 288, img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'toovar', name: 'Toor Dal', desc: 'Clean, polished, quick cooking', qty: '1 kg', discount: '8% OFF', price: 145, mrp: 158, img: 'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'moong', name: 'Moong Dal (Split)', desc: 'Dehusked green moong, easy to digest', qty: '500 g', discount: '11% OFF', price: 72, mrp: 81, img: 'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'maida', name: 'Maida (All Purpose Flour)', desc: 'Fine texture, perfect for baking', qty: '1 kg', discount: '6% OFF', price: 48, mrp: 51, img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop', time: '4 MINS' },
+                ]
+            },
+            'masalas-dry-fruits': {
+                label: 'Masalas & Dry Fruits',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Masalas_%26_Dry_Fruits.png',
+                subcats: [
+                    { id: 'spices', label: 'Whole Spices', thumb: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=120&h=120&fit=crop' },
+                    { id: 'powders', label: 'Spice Powders', thumb: 'https://images.unsplash.com/photo-1601063476271-a159c71ab0b3?w=120&h=120&fit=crop' },
+                    { id: 'dryfr', label: 'Dry Fruits', thumb: 'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'turmeric', name: 'Turmeric Powder', desc: 'Pure Lakadong haldi, high curcumin', qty: '200 g', discount: '15% OFF', price: 55, mrp: 65, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'chilli', name: 'Red Chilli Powder', desc: 'Byadagi variety, rich colour & heat', qty: '200 g', discount: '12% OFF', price: 62, mrp: 70, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'almonds', name: 'California Almonds', desc: 'Premium raw almonds, high protein', qty: '250 g', discount: '18% OFF', price: 189, mrp: 230, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'cashews', name: 'Cashew (W240)', desc: 'Whole cashews, crunchy and fresh', qty: '250 g', discount: '20% OFF', price: 199, mrp: 249, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'garam', name: 'Garam Masala', desc: 'Aromatic blend of 12 whole spices', qty: '100 g', discount: '10% OFF', price: 68, mrp: 75, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop', time: '4 MINS' },
+                ]
+            },
+            'oils-ghee': {
+                label: 'Oils & Ghee',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Oils_%26_Ghee.png',
+                subcats: [
+                    { id: 'cooking', label: 'Cooking Oils', thumb: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=120&h=120&fit=crop' },
+                    { id: 'ghee', label: 'Ghee', thumb: 'https://images.unsplash.com/photo-1631390878027-01e0d6f1ef7c?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'sunflower', name: 'Sunflower Oil', desc: 'Refined, cholesterol free, light', qty: '1 L', discount: '8% OFF', price: 139, mrp: 151, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'coconutoil', name: 'Cold Pressed Coconut Oil', desc: 'Virgin, unrefined, natural aroma', qty: '500 ml', discount: '12% OFF', price: 179, mrp: 203, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'ghee500', name: 'Desi Cow Ghee', desc: 'A2 milk ghee, hand-churned, pure', qty: '500 ml', discount: '16% OFF', price: 499, mrp: 594, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'mustardoil', name: 'Mustard Oil', desc: 'Cold pressed, traditional & pungent', qty: '1 L', discount: '9% OFF', price: 155, mrp: 170, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop', time: '4 MINS' },
+                ]
+            },
+            'munchies': {
+                label: 'Munchies',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Munchies.png',
+                subcats: [
+                    { id: 'chips', label: 'Chips', thumb: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=120&h=120&fit=crop' },
+                    { id: 'namkeen', label: 'Namkeen', thumb: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=120&h=120&fit=crop' },
+                    { id: 'biscuits', label: 'Biscuits', thumb: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'lays', name: "Lay's Classic Salted", desc: 'Light and crispy potato chips', qty: '52 g', discount: '5% OFF', price: 20, mrp: 21, img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'kurkure', name: 'Kurkure Masala Munch', desc: 'Tangy masala flavoured corn puffs', qty: '90 g', discount: '10% OFF', price: 27, mrp: 30, img: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'haldiram', name: 'Haldiram Bhujia', desc: 'Classic rajasthani sev', qty: '200 g', discount: '8% OFF', price: 92, mrp: 100, img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'parle', name: 'Parle-G Biscuits', desc: "India's favourite glucose biscuit", qty: '250 g', discount: '4% OFF', price: 25, mrp: 26, img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'dark', name: 'Dark Fantasy Choco Fills', desc: 'Crumbly cookie with chocolate filling', qty: '75 g', discount: '6% OFF', price: 47, mrp: 50, img: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&h=300&fit=crop', time: '3 MINS' },
+                ]
+            },
+            'sweets-chocolates': {
+                label: 'Sweets & Chocolates',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Sweets_%26_Chocolates.png',
+                subcats: [
+                    { id: 'indian', label: 'Indian Sweets', thumb: 'https://images.unsplash.com/photo-1565299625323-4a54a4ce1ed6?w=120&h=120&fit=crop' },
+                    { id: 'choco', label: 'Chocolates', thumb: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'kaju', name: 'Kaju Katli', desc: 'Pure cashew burfi, festival favourite', qty: '250 g', discount: '12% OFF', price: 249, mrp: 283, img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'gulab', name: 'Gulab Jamun', desc: 'Soft, spongy, soaked in sugar syrup', qty: '500 g', discount: '10% OFF', price: 139, mrp: 155, img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'kitkat', name: 'KitKat Chocolate', desc: '4 finger crispy wafer chocolate bar', qty: '41.5 g', discount: '5% OFF', price: 38, mrp: 40, img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=300&fit=crop', time: '5 MINS' },
+                    { id: 'dairy', name: 'Dairy Milk Silk', desc: 'Smooth milk chocolate bar', qty: '145 g', discount: '8% OFF', price: 185, mrp: 201, img: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=300&fit=crop', time: '5 MINS' },
+                ]
+            },
+            'cold-drinks-juices': {
+                label: 'Cold Drinks & Juices',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Cold_Drinks_%26_Juices.png',
+                subcats: [
+                    { id: 'sodas', label: 'Sodas & Colas', thumb: 'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=120&h=120&fit=crop' },
+                    { id: 'juices', label: 'Fruit Juices', thumb: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=120&h=120&fit=crop' },
+                    { id: 'water', label: 'Water', thumb: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'coke', name: 'Coca-Cola', desc: 'The original sparkling cola', qty: '750 ml', discount: '5% OFF', price: 38, mrp: 40, img: 'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: '7up', name: '7UP Nimbooz', desc: 'Real lemon soda, refreshing twist', qty: '600 ml', discount: '6% OFF', price: 36, mrp: 38, img: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'redalert', name: 'Red Bull Energy', desc: 'Vitalizes body and mind', qty: '250 ml', discount: '8% OFF', price: 110, mrp: 120, img: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'tropicana', name: 'Tropicana Orange Juice', desc: '100% pure fruit juice, no added sugar', qty: '1 L', discount: '10% OFF', price: 99, mrp: 110, img: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop', time: '3 MINS' },
+                    { id: 'water1l', name: 'Bisleri Water', desc: 'Packaged drinking water, purity guaranteed', qty: '1 L', discount: '0% OFF', price: 20, mrp: 20, img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop', time: '3 MINS' },
+                ]
+            },
+            'cleaning-essentials': {
+                label: 'Cleaning Essentials',
+                thumb: 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/PC_Mweb/Cleaning_Essentials.png',
+                subcats: [
+                    { id: 'detergent', label: 'Detergents', thumb: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=120&h=120&fit=crop' },
+                    { id: 'dishwash', label: 'Dishwash', thumb: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=120&h=120&fit=crop' },
+                    { id: 'floor', label: 'Floor Cleaners', thumb: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=120&h=120&fit=crop' },
+                ],
+                products: [
+                    { id: 'ariel', name: 'Ariel Matic Front Load', desc: 'Superior stain removal in cold water', qty: '1 kg', discount: '18% OFF', price: 249, mrp: 304, img: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'vim', name: 'Vim Dishwash Liquid', desc: 'Cuts through grease, lemon fresh', qty: '500 ml', discount: '10% OFF', price: 72, mrp: 80, img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'dettol', name: 'Dettol Antiseptic Liquid', desc: 'Original pine fragrance disinfectant', qty: '250 ml', discount: '12% OFF', price: 115, mrp: 131, img: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=400&h=300&fit=crop', time: '4 MINS' },
+                    { id: 'harpic', name: 'Harpic Power Plus', desc: 'Kills 99.9% germs in toilet bowl', qty: '500 ml', discount: '9% OFF', price: 88, mrp: 97, img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=300&fit=crop', time: '4 MINS' },
+                ]
+            }
+        };
+
+        // All categories for sidebar use
+        const ALL_CATS = Object.entries(CATEGORIES).map(([key, val]) => ({
+            key,
+            label: val.label,
+            thumb: val.thumb
+        }));
+
+        // ── Page Init ────────────────────────────────────────────────────────────────
+        function getQueryParam(key) {
+            return new URLSearchParams(window.location.search).get(key);
+        }
+
+        let currentCat = getQueryParam('cat') || 'fresh-vegetables';
+
+        function renderSidebar() {
+            const sidebar = document.getElementById('sidebarNav');
+            sidebar.innerHTML = ALL_CATS.map(cat => `
+        <div class="sidebar-item ${cat.key === currentCat ? 'active' : ''}"
+             onclick="switchCategory('${cat.key}')">
+            <span class="sidebar-label">${cat.label.replace('&', '&amp;')}</span>
+        </div>
+    `).join('');
+        }
+
+        function renderProducts() {
+            const data = CATEGORIES[currentCat];
+            if (!data) return;
+
+            // Update page title
+            document.getElementById('pageTitle').textContent = data.label;
+            document.title = `${data.label} – FoodCart Instamart`;
+
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = `<div class="grid-section-title">${data.label}</div>` +
+                data.products.map(p => `
+        <div class="product-card">
+            <button class="add-btn add-to-order"
+                    data-name="${p.name}"
+                    data-price="${p.price}"
+                    title="Add to cart">
+                <i class="bi bi-plus"></i>
+            </button>
+<div class="product-img-wrap">
+    <img src="${p.img}" alt="${p.name}" loading="lazy">
+</div>
+            <div class="product-info">
+                <div class="delivery-time"><i class="bi bi-lightning-fill me-1" style="color:#e91e8c;"></i>${p.time}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-desc">${p.desc}</div>
+                <div class="product-qty">${p.qty} ${p.qty.includes('kg') || p.qty.includes('g') || p.qty.includes('ml') || p.qty.includes('L') || p.qty.includes('pcs') || p.qty.includes('pc') ? '<i class="bi bi-chevron-down"></i>' : ''}</div>
+                ${p.discount !== '0% OFF' ? `<span class="discount-tag">${p.discount}</span>` : ''}
+                <div class="price-row">
+                    <span class="price-pill price-now">₹${p.price}</span>
+                    ${p.mrp !== p.price ? `<span class="price-old">₹${p.mrp}</span>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        function switchCategory(catKey) {
+            currentCat = catKey;
+            // Update URL without reload
+            const url = new URL(window.location.href);
+            url.searchParams.set('cat', catKey);
+            window.history.replaceState({}, '', url.toString());
+            renderSidebar();
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Override handleCartActions to support grocery product cards
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            renderProducts();
+        });
+
+        // Delegate add-to-cart for dynamically rendered cards
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.add-to-order');
+            if (!btn) return;
+            e.stopPropagation();
+
+            const name = btn.dataset.name;
+            const price = parseFloat(btn.dataset.price) || 0;
+            if (!name) return;
+
+            // Load cart and add
+            const cartKey = 'foodcart-global-cart';
+            let cart = [];
+            try { cart = JSON.parse(localStorage.getItem(cartKey)) || []; } catch { cart = []; }
+
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1, page: 'grocery' });
+            }
+            localStorage.setItem(cartKey, JSON.stringify(cart));
+
+            // Trigger shared cart.js utilities
+            if (typeof updateCartCount === 'function') updateCartCount();
+            if (typeof renderCart === 'function') renderCart();
+            if (typeof showGlobalToast === 'function') showGlobalToast(`"${name}" added to cart`);
+
+            // Visual feedback on button
+            btn.style.background = '#1e88e5';
+            btn.style.color = '#fff';
+            btn.innerHTML = '<i class="bi bi-check-lg"></i>';
+            setTimeout(() => {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.innerHTML = '<i class="bi bi-plus"></i>';
+            }, 900);
+        });
+    </script>
+
+</body>
+
+</html>

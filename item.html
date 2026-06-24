@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoodCart Menu</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="cart.css">
+
+<style>
+    :root {
+        --accent: #ff5a00;
+        --ink: #121826;
+        --muted: #64748b;
+    }
+
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        background:
+            radial-gradient(circle at top left, rgba(255, 90, 0, 0.14), transparent 28%),
+            radial-gradient(circle at top right, rgba(255, 180, 90, 0.16), transparent 22%),
+            linear-gradient(180deg, #fffaf6 0%, #f5f7fb 100%);
+        color: var(--ink);
+        min-height: 100vh;
+    }
+
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        background: rgba(255, 250, 246, 0.88);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .header-shell {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 16px 0;
+    }
+
+    .brand-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .brand-link:hover {
+        color: var(--accent);
+    }
+
+    .header-cart {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .header-cart-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 999px;
+        padding: 10px 14px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+    }
+
+    .header-cart-panel {
+        margin-top: 12px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+    }
+
+    .header-cart-list {
+        max-height: 220px;
+        overflow: auto;
+        margin-bottom: 14px;
+    }
+
+    .payment-panel {
+        margin-top: 12px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+        display: none;
+    }
+
+    .payment-panel.show {
+        display: block;
+    }
+
+    .payment-option {
+        display: block;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 18px;
+        padding: 12px 14px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        background: #fff;
+    }
+
+    .payment-option input {
+        margin-right: 10px;
+    }
+
+    .hero {
+        padding: 20px 0 30px;
+    }
+
+    .hero-card {
+        background: rgba(255,255,255,0.84);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(15, 23, 42, 0.06);
+        border-radius: 30px;
+        box-shadow: 0 28px 70px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
+
+    .hero-copy {
+        padding: 34px;
+    }
+
+    .eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 999px;
+        background: #fff0e8;
+        color: var(--accent);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        margin-bottom: 16px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 14px;
+    }
+
+    .hero-text {
+        color: var(--muted);
+        max-width: 56ch;
+        margin-bottom: 22px;
+    }
+
+    .hero-image {
+        width: 100%;
+        min-height: 320px;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+
+    .menu-card {
+        border: 0;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 60px rgba(15, 23, 42, 0.12);
+    }
+
+    .menu-image {
+        height: 210px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .price-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f5f9;
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-weight: 700;
+    }
+
+    .btn-accent {
+        background: var(--accent);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-weight: 700;
+        padding: 10px 16px;
+    }
+
+    .btn-accent:hover {
+        background: #e34d00;
+        color: #ffffff;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .cart-item:last-child {
+        border-bottom: 0;
+    }
+
+    .info-panel {
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .toast-box {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 1050;
+        background: #111827;
+        color: #fff;
+        border-radius: 16px;
+        padding: 14px 18px;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+        opacity: 0;
+        transform: translateY(12px);
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast-box.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media (max-width: 991px) {
+        .hero-copy {
+            padding: 24px;
+        }
+    }
+</style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-shell">
+                <a class="brand-link" href="index.html">
+                    <i class="bi bi-basket-fill text-warning fs-4"></i>
+                    <span>FoodCart</span>
+                </a>
+
+                <div class="header-cart">
+                    <a class="btn btn-outline-dark rounded-pill px-3" href="index.html">
+                        <i class="bi bi-arrow-left me-1"></i> Home
+                    </a>
+                    <a class="header-cart-chip ms-2" href="#globalCartOffcanvas" data-bs-toggle="offcanvas">
+                        <i class="bi bi-cart-fill text-warning"></i>
+                        <span><span id="globalCartCount">0</span> items</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-card row g-0 align-items-stretch">
+                <div class="col-lg-6 hero-copy d-flex flex-column justify-content-center">
+                    <span id="eyebrowText" class="eyebrow">Food Specials</span>
+                    <h1 id="heroTitle" class="hero-title">Choose your favorite item.</h1>
+                    <p id="heroText" class="hero-text">Pick a variation below and tap add to cart.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="price-pill"><i class="bi bi-lightning-charge-fill text-warning"></i> Fast delivery</span>
+                        <span class="price-pill"><i class="bi bi-basket-fill text-warning"></i> Live menu</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img id="heroImage" class="hero-image" src="images/pizza.webp" alt="Food item">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4 py-lg-5">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+                <div>
+                    <h2 id="menuTitle" class="section-title mb-1">Menu Options</h2>
+                    <p id="menuSubtitle" class="section-subtitle">Different types with different prices.</p>
+                </div>
+            </div>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-12">
+                    <div id="menuGrid" class="row g-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-5">
+        <div class="container">
+            <div class="info-panel p-4 p-lg-5">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-4">
+                        <h3 class="fw-bold mb-2">Menu Guide</h3>
+                        <p class="text-muted mb-0">
+                            Tap any option to choose it. Your cart lives in the header above.
+                        </p>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">1. Pick an item</div>
+                                    <p class="text-muted mb-0">Choose from the visible options and compare prices.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">2. Add to cart</div>
+                                    <p class="text-muted mb-0">Use the add button on any card to save it in the header cart.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">3. Review in header</div>
+                                    <p class="text-muted mb-0">Check quantity and subtotal directly in the top cart panel.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const itemName = (params.get('name') || 'Food Item').trim();
+        const itemImage = params.get('image') || 'images/pizza.webp';
+        const slug = itemName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'food-item';
+        const cartKey = 'foodcart-global-cart';
+
+        const menuData = {
+            cake: {
+                title: 'Cake Menu',
+                eyebrow: 'Cake Collection',
+                subtitle: 'Sweet slices and celebration cakes for every craving.',
+                description: 'Pick a cake style below and tap add to cart.',
+                image: 'images/cake.webp',
+                variants: [
+                    { name: 'Chocolate Truffle', note: 'Rich chocolate layers with ganache.', size: '500 g', price: 349, image: 'images/cake.webp' },
+                    { name: 'Black Forest', note: 'Soft sponge with cherries and cream.', size: '500 g', price: 319, image: 'images/cake.webp' },
+                    { name: 'Red Velvet', note: 'Cream cheese frosting with velvet sponge.', size: '500 g', price: 379, image: 'images/cake.webp' }
+                ]
+            },
+            shawarma: {
+                title: 'Shawarma Menu',
+                eyebrow: 'Shawarma Picks',
+                subtitle: 'Rolls and plates with spice and sauces.',
+                description: 'Choose a shawarma combo and tap add to cart.',
+                image: 'images/shawrma.webp',
+                variants: [
+                    { name: 'Chicken Roll', note: 'Classic chicken shawarma wrap.', size: '1 roll', price: 149, image: 'images/shawrma.webp' },
+                    { name: 'Double Chicken Roll', note: 'Extra filling with garlic mayo.', size: '1 roll', price: 189, image: 'images/shawrma.webp' },
+                    { name: 'Shawarma Plate', note: 'Served with fries and salad.', size: 'Plate', price: 229, image: 'images/shawrma.webp' }
+                ]
+            },
+            noodles: {
+                title: 'Noodles Menu',
+                eyebrow: 'Noodle Bowls',
+                subtitle: 'Hot bowls with different sauces and toppings.',
+                description: 'Select a noodle style and tap add to cart.',
+                image: 'images/noodles.webp',
+                variants: [
+                    { name: 'Hakka Noodles', note: 'Stir-fried vegetables and soy sauce.', size: 'Regular bowl', price: 159, image: 'images/noodles.webp' },
+                    { name: 'Schezwan Noodles', note: 'Spicy red sauce with crunchy veggies.', size: 'Regular bowl', price: 179, image: 'images/noodles.webp' },
+                    { name: 'Chicken Noodles', note: 'Noodles with chicken and pepper sauce.', size: 'Large bowl', price: 219, image: 'images/noodles.webp' }
+                ]
+            },
+            biriyani: {
+                title: 'Biryani Menu',
+                eyebrow: 'Biryani Feast',
+                subtitle: 'Fragrant biryani options with rich spices.',
+                description: 'Pick a biryani plate and tap add to cart.',
+                image: 'images/biriyani.webp',
+                variants: [
+                    { name: 'Veg Biryani', note: 'Spiced rice with seasonal vegetables.', size: 'Full plate', price: 189, image: 'images/biriyani.webp' },
+                    { name: 'Chicken Biryani', note: 'Tender chicken layered with aromatic rice.', size: 'Full plate', price: 269, image: 'images/biriyani.webp' },
+                    { name: 'Mutton Biryani', note: 'Slow-cooked mutton with rich masala.', size: 'Full plate', price: 349, image: 'images/biriyani.webp' }
+                ]
+            },
+            dosa: {
+                title: 'Dosa Menu',
+                eyebrow: 'Dosa Corner',
+                subtitle: 'Crispy dosas with classic fillings.',
+                description: 'Choose your dosa and tap add to cart.',
+                image: 'images/dosa.webp',
+                variants: [
+                    { name: 'Plain Dosa', note: 'Crispy, golden, and served with chutney.', size: '1 piece', price: 99, image: 'images/dosa.webp' },
+                    { name: 'Masala Dosa', note: 'Potato masala wrapped in a crispy dosa.', size: '1 piece', price: 129, image: 'images/dosa.webp' },
+                    { name: 'Paneer Dosa', note: 'Stuffed with paneer and spiced onions.', size: '1 piece', price: 159, image: 'images/dosa.webp' }
+                ]
+            },
+            momos: {
+                title: 'Momos Menu',
+                eyebrow: 'Momos Selection',
+                subtitle: 'Steamed and fried momos with chutneys.',
+                description: 'Pick your momo style and tap add to cart.',
+                image: 'images/momos.webp',
+                variants: [
+                    { name: 'Veg Momos', note: 'Steamed veg dumplings with dip.', size: '6 pieces', price: 119, image: 'images/momos.webp' },
+                    { name: 'Chicken Momos', note: 'Juicy chicken filling and spicy sauce.', size: '6 pieces', price: 149, image: 'images/momos.webp' },
+                    { name: 'Fried Momos', note: 'Crunchy outer layer with spicy filling.', size: '6 pieces', price: 139, image: 'images/momos.webp' }
+                ]
+            },
+            cutlet: {
+                title: 'Cutlet Menu',
+                eyebrow: 'Cutlet Snacks',
+                subtitle: 'Crisp snacks for evening cravings.',
+                description: 'Select a cutlet option and tap add to cart.',
+                image: 'images/cutlet.webp',
+                variants: [
+                    { name: 'Veg Cutlet', note: 'Mashed vegetables with crisp coating.', size: '2 pieces', price: 89, image: 'images/cutlet.webp' },
+                    { name: 'Chicken Cutlet', note: 'Chicken filling with crunchy crumbs.', size: '2 pieces', price: 119, image: 'images/cutlet.webp' },
+                    { name: 'Paneer Cutlet', note: 'Soft paneer with herbs and spice.', size: '2 pieces', price: 109, image: 'images/cutlet.webp' }
+                ]
+            },
+            juice: {
+                title: 'Juice Menu',
+                eyebrow: 'Fresh Juices',
+                subtitle: 'Cold and fresh drinks for every mood.',
+                description: 'Choose a juice and tap add to cart.',
+                image: 'images/juice.webp',
+                variants: [
+                    { name: 'Orange Juice', note: 'Freshly squeezed citrus juice.', size: '300 ml', price: 79, image: 'images/juice.webp' },
+                    { name: 'Mango Juice', note: 'Sweet mango blend with pulp.', size: '300 ml', price: 89, image: 'images/juice.webp' },
+                    { name: 'Mixed Fruit Juice', note: 'Blend of seasonal fruits.', size: '300 ml', price: 99, image: 'images/juice.webp' }
+                ]
+            },
+            pavbhaji: {
+                title: 'Pav Bhaji Menu',
+                eyebrow: 'Pav Bhaji',
+                subtitle: 'Street-style bhaji with buttered pav.',
+                description: 'Select a pav bhaji combo and tap add to cart.',
+                image: 'images/pavbaji.webp',
+                variants: [
+                    { name: 'Classic Pav Bhaji', note: 'Buttery bhaji with toasted pav.', size: '1 plate', price: 149, image: 'images/pavbaji.webp' },
+                    { name: 'Cheese Pav Bhaji', note: 'Loaded with cheese and extra butter.', size: '1 plate', price: 179, image: 'images/pavbaji.webp' },
+                    { name: 'Mumbai Style Pav Bhaji', note: 'Street-style masala with onion salad.', size: '1 plate', price: 169, image: 'images/pavbaji.webp' }
+                ]
+            },
+            tea: {
+                title: 'Tea Menu',
+                eyebrow: 'Tea Time',
+                subtitle: 'Hot teas for a quick refresh.',
+                description: 'Pick a tea option and tap add to cart.',
+                image: 'images/tea.webp',
+                variants: [
+                    { name: 'Masala Tea', note: 'Spiced tea with milk and ginger.', size: '1 cup', price: 29, image: 'images/tea.webp' },
+                    { name: 'Black Tea', note: 'Simple and bold brewed tea.', size: '1 cup', price: 25, image: 'images/tea.webp' },
+                    { name: 'Ginger Tea', note: 'Warm tea with ginger kick.', size: '1 cup', price: 35, image: 'images/tea.webp' }
+                ]
+            },
+            coffee: {
+                title: 'Coffee Menu',
+                eyebrow: 'Coffee House',
+                subtitle: 'Hot and cold coffee options.',
+                description: 'Choose a coffee style and tap add to cart.',
+                image: 'images/coffe.webp',
+                variants: [
+                    { name: 'Hot Coffee', note: 'Classic milk coffee.', size: '1 cup', price: 49, image: 'images/coffe.webp' },
+                    { name: 'Cold Coffee', note: 'Chilled coffee with cream.', size: '1 glass', price: 79, image: 'images/coffe.webp' },
+                    { name: 'Mocha', note: 'Coffee with chocolate and milk.', size: '1 cup', price: 89, image: 'images/coffe.webp' }
+                ]
+            }
+        };
+
+        const fallbackData = {
+            title: `${itemName} Menu`,
+            eyebrow: `${itemName} Specials`,
+            subtitle: `Different types of ${itemName.toLowerCase()} with add to cart options.`,
+            description: `Choose from multiple ${itemName.toLowerCase()} options and tap add to cart.`,
+            image: itemImage,
+            variants: [
+                { name: `Classic ${itemName}`, note: 'Balanced flavor and popular choice.', size: 'Regular', price: 149, image: itemImage },
+                { name: `Extra ${itemName}`, note: 'More toppings and a richer taste.', size: 'Large', price: 199, image: itemImage },
+                { name: `Special ${itemName}`, note: 'Chef-inspired special serving.', size: 'Family', price: 249, image: itemImage }
+            ]
+        };
+
+        const menu = menuData[slug] || fallbackData;
+        const menuGrid = document.getElementById('menuGrid');
+        document.title = `${menu.title} | FoodCart`;
+        document.getElementById('heroImage').src = menu.image;
+        document.getElementById('heroImage').alt = itemName;
+        document.getElementById('heroTitle').textContent = menu.title;
+        document.getElementById('heroText').textContent = menu.description;
+        document.getElementById('eyebrowText').textContent = menu.eyebrow;
+        document.getElementById('menuTitle').textContent = menu.title;
+        document.getElementById('menuSubtitle').textContent = menu.subtitle;
+
+        menuGrid.innerHTML = menu.variants.map((variant) => `
+            <div class="col-md-6">
+                <div class="card menu-card">
+                    <img src="${variant.image}" class="menu-image" alt="${variant.name}">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                            <h5 class="fw-bold mb-0">${variant.name}</h5>
+                            <span class="price-pill">₹${variant.price}</span>
+                        </div>
+                        <p class="text-muted mb-3">${variant.note}</p>
+                        <div class="d-flex justify-content-between align-items-center gap-2">
+                            <small class="text-muted">${variant.size}</small>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-accent add-to-order" data-name="${variant.name}">Add to Cart</button>
+                                <button class="btn btn-buy-now buy-now-btn" data-name="${variant.name}">Buy Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="cart.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pizza Menu | FoodCart</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="cart.css">
+
+<style>
+    :root {
+        --accent: #ff5a00;
+        --ink: #121826;
+        --muted: #64748b;
+    }
+
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        background:
+            radial-gradient(circle at top left, rgba(255, 90, 0, 0.14), transparent 28%),
+            radial-gradient(circle at top right, rgba(255, 180, 90, 0.16), transparent 22%),
+            linear-gradient(180deg, #fffaf6 0%, #f5f7fb 100%);
+        color: var(--ink);
+        min-height: 100vh;
+    }
+
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        background: rgba(255, 250, 246, 0.88);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .header-shell {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 16px 0;
+    }
+
+    .brand-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .brand-link:hover {
+        color: var(--accent);
+    }
+
+    .header-cart {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .header-cart-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 999px;
+        padding: 10px 14px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+    }
+
+    .header-cart-panel {
+        margin-top: 12px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+    }
+
+    .header-cart-list {
+        max-height: 220px;
+        overflow: auto;
+        margin-bottom: 14px;
+    }
+
+    .payment-panel {
+        margin-top: 12px;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+        display: none;
+    }
+
+    .payment-panel.show {
+        display: block;
+    }
+
+    .payment-option {
+        display: block;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 18px;
+        padding: 12px 14px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        background: #fff;
+    }
+
+    .payment-option input {
+        margin-right: 10px;
+    }
+
+    .hero {
+        padding: 20px 0 30px;
+    }
+
+    .hero-card {
+        background: rgba(255,255,255,0.84);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(15, 23, 42, 0.06);
+        border-radius: 30px;
+        box-shadow: 0 28px 70px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
+
+    .hero-copy {
+        padding: 34px;
+    }
+
+    .eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 999px;
+        background: #fff0e8;
+        color: var(--accent);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        margin-bottom: 16px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 14px;
+    }
+
+    .hero-text {
+        color: var(--muted);
+        max-width: 56ch;
+        margin-bottom: 22px;
+    }
+
+    .hero-image {
+        width: 100%;
+        min-height: 320px;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+
+    .pizza-card {
+        border: 0;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+    }
+
+    .pizza-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 60px rgba(15, 23, 42, 0.12);
+    }
+
+    .pizza-image {
+        height: 210px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .price-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f5f9;
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-weight: 700;
+    }
+
+    .btn-accent {
+        background: var(--accent);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-weight: 700;
+        padding: 10px 16px;
+    }
+
+    .btn-accent:hover {
+        background: #e34d00;
+        color: #ffffff;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .cart-item:last-child {
+        border-bottom: 0;
+    }
+
+    .info-panel {
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .toast-box {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 1050;
+        background: #111827;
+        color: #fff;
+        border-radius: 16px;
+        padding: 14px 18px;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+        opacity: 0;
+        transform: translateY(12px);
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast-box.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media (max-width: 991px) {
+        .hero-copy {
+            padding: 24px;
+        }
+    }
+</style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-shell">
+                <a class="brand-link" href="index.html">
+                    <i class="bi bi-basket-fill text-warning fs-4"></i>
+                    <span>FoodCart Pizza</span>
+                </a>
+
+                <div class="header-cart">
+                    <a class="btn btn-outline-dark rounded-pill px-3" href="index.html">
+                        <i class="bi bi-arrow-left me-1"></i> Home
+                    </a>
+                    <a class="header-cart-chip ms-2" href="#globalCartOffcanvas" data-bs-toggle="offcanvas">
+                        <i class="bi bi-cart-fill text-warning"></i>
+                        <span><span id="globalCartCount">0</span> items</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-card row g-0 align-items-stretch">
+                <div class="col-lg-6 hero-copy d-flex flex-column justify-content-center">
+                    <span class="eyebrow">Pizza Specials</span>
+                    <h1 class="hero-title">Choose your pizza, size, and add it to order.</h1>
+                    <p class="hero-text">
+                        Fresh oven-baked pizzas with different sizes and prices. Tap add to cart on any option to pick your pizza.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="price-pill"><i class="bi bi-lightning-charge-fill text-warning"></i> Fast delivery</span>
+                        <span class="price-pill"><i class="bi bi-basket-fill text-warning"></i> Live menu</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img class="hero-image" src="images/pizza.webp" alt="Pizza">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4 py-lg-5">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+                <div>
+                    <h2 class="section-title mb-1">Popular Pizzas</h2>
+                    <p class="section-subtitle">Different types with different prices.</p>
+                </div>
+            </div>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-12">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card pizza-card">
+                                <img src="images/pizza.webp" class="pizza-image" alt="Margherita Pizza">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                        <h5 class="fw-bold mb-0">Margherita</h5>
+                                        <span class="price-pill">₹199</span>
+                                    </div>
+                                    <p class="text-muted mb-3">Classic tomato sauce, mozzarella, and basil.</p>
+                                    <div class="d-flex justify-content-between align-items-center gap-2">
+                                        <small class="text-muted">Medium size</small>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-accent add-to-order" data-name="Margherita">Add to Cart</button>
+                                            <button class="btn btn-buy-now buy-now-btn" data-name="Margherita">Buy Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card pizza-card">
+                                <img src="images/pizza.webp" class="pizza-image" alt="Pepperoni Pizza">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                        <h5 class="fw-bold mb-0">Pepperoni</h5>
+                                        <span class="price-pill">₹279</span>
+                                    </div>
+                                    <p class="text-muted mb-3">Loaded with pepperoni slices and extra cheese.</p>
+                                    <div class="d-flex justify-content-between align-items-center gap-2">
+                                        <small class="text-muted">Large size</small>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-accent add-to-order" data-name="Pepperoni">Add to Cart</button>
+                                            <button class="btn btn-buy-now buy-now-btn" data-name="Pepperoni">Buy Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card pizza-card">
+                                <img src="images/pizza.webp" class="pizza-image" alt="Veggie Pizza">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                        <h5 class="fw-bold mb-0">Veggie Feast</h5>
+                                        <span class="price-pill">₹249</span>
+                                    </div>
+                                    <p class="text-muted mb-3">Bell peppers, olives, onions, corn, and mushrooms.</p>
+                                    <div class="d-flex justify-content-between align-items-center gap-2">
+                                        <small class="text-muted">Medium size</small>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-accent add-to-order" data-name="Veggie Feast">Add to Cart</button>
+                                            <button class="btn btn-buy-now buy-now-btn" data-name="Veggie Feast">Buy Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card pizza-card">
+                                <img src="images/pizza.webp" class="pizza-image" alt="BBQ Chicken Pizza">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                        <h5 class="fw-bold mb-0">BBQ Chicken</h5>
+                                        <span class="price-pill">₹329</span>
+                                    </div>
+                                    <p class="text-muted mb-3">Smoky BBQ sauce with chicken and onions.</p>
+                                    <div class="d-flex justify-content-between align-items-center gap-2">
+                                        <small class="text-muted">Large size</small>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-accent add-to-order" data-name="BBQ Chicken">Add to Cart</button>
+                                            <button class="btn btn-buy-now buy-now-btn" data-name="BBQ Chicken">Buy Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-5">
+        <div class="container">
+            <div class="info-panel p-4 p-lg-5">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-4">
+                        <h3 class="fw-bold mb-2">Pizza Guide</h3>
+                        <p class="text-muted mb-0">
+                            Tap any pizza option to choose it. Your cart lives in the header above.
+                        </p>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">1. Pick a pizza</div>
+                                    <p class="text-muted mb-0">Compare the options and choose the one you want.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">2. Add to cart</div>
+                                    <p class="text-muted mb-0">Tap the add button on any card to store it in the header cart.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-white rounded-4 p-3 h-100 shadow-sm">
+                                    <div class="fw-bold mb-1">3. Review in header</div>
+                                    <p class="text-muted mb-0">Check items, subtotal, and remove anything from the header panel.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="cart.js" defer></script>
+</body>
+</html>

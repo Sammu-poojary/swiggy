@@ -1,0 +1,126 @@
+/* Global Cart Styles */
+
+:root {
+    --cart-accent: #ff5a00;
+    --cart-ink: #121826;
+    --cart-muted: #64748b;
+    --cart-success: #2e7d32;
+}
+
+/* Header Cart Logo */
+.header-cart-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    padding: 8px 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    font-weight: 700;
+    color: var(--cart-ink) !important;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+}
+
+.header-cart-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    background: #ffffff;
+    color: var(--cart-accent) !important;
+}
+
+.header-cart-chip .bi-cart-fill,
+.header-cart-chip .bi-bag-check {
+    color: var(--cart-accent);
+}
+
+/* Buy Now Button */
+.btn-buy-now {
+    background: var(--cart-success);
+    color: #ffffff !important;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    padding: 10px 18px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-buy-now:hover {
+    background: #1b5e20;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+}
+
+.btn-buy-now:active {
+    transform: translateY(0);
+}
+
+/* Offcanvas Cart Custom Styling */
+.offcanvas-cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.offcanvas-cart-item:last-child {
+    border-bottom: none;
+}
+
+.global-payment-option {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background: #ffffff;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.global-payment-option:hover {
+    border-color: var(--cart-accent);
+    background-color: rgba(255, 90, 0, 0.02);
+}
+
+.global-payment-option input[type="radio"] {
+    margin-right: 12px;
+    accent-color: var(--cart-accent);
+}
+
+/* Global Toast Box */
+.global-toast-box {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1090;
+    background: #111827;
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 14px 20px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    font-weight: 500;
+}
+
+.global-toast-box.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Adjustment for navbar list item alignment */
+.nav-item.align-self-center {
+    align-self: center;
+}
