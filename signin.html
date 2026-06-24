@@ -11,6 +11,7 @@
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="cart.css">
 
 <style>
     * {
@@ -458,6 +459,12 @@
                     <li class="nav-item me-lg-4">
                         <a class="nav-link" href="partner.html">Partner with us</a>
                     </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="header-cart-chip" href="#globalCartOffcanvas" data-bs-toggle="offcanvas" style="text-decoration:none">
+                            <i class="bi bi-cart-fill text-warning"></i>
+                            <span><span id="globalCartCount">0</span> items</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -578,6 +585,7 @@
 
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="cart.js" defer></script>
 
 <!-- Custom JS Validation and Interactions -->
 <script>
